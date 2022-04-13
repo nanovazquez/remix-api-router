@@ -1,0 +1,22 @@
+{
+  "name": "remix-api-connect",
+  "version": "0.0.1",
+  "description": "Method routing and middleware chaining for building APIs using Remix",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "remix-api-connect",
+    "remix-api",
+    "remix",
+    "api",
+    "middleware"
+  ],
+  "author": "nanovazquez",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
+}
