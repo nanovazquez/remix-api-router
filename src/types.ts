@@ -1,6 +1,6 @@
 export type NextFunction = (error?: Error) => void;
 
-export type MiddlewareArgs = {
+export type HandlerArgs = {
   request: Request;
   context: any;
   params: {
@@ -8,5 +8,6 @@ export type MiddlewareArgs = {
   };
 };
 
-export type MiddlewareReturn = Promise<Response> | Promise<unknown>;
-export type Middleware = (args: MiddlewareArgs) => MiddlewareReturn;
+export type HandlerReturn = Promise<Response> | Response | Promise<unknown> | unknown;
+export type Handler = (args: HandlerArgs) => HandlerReturn;
+export type ErrorHandler = (error: any, args: HandlerArgs) => HandlerReturn;

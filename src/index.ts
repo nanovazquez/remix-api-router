@@ -1,16 +1,25 @@
-import type { MiddlewareArgs, Middleware, MiddlewareReturn } from "./types";
+import type { Handler, HandlerArgs, HandlerReturn, ErrorHandler } from "./types";
+
+const inProd = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
+const defaultNoMatchRoutingHandler = () => new Response(null, { status: 405 });
+const defaultErrorHandler = (error) => {
+  console.error(error);
+  return new Response(inProd ? JSON.stringify(error) : null, { status: 500 });
+};
 
 class ApiRouter {
   private chains: {
-    get: Middleware[];
-    post: Middleware[];
-    put: Middleware[];
-    patch: Middleware[];
-    delete: Middleware[];
-    options: Middleware[];
-    trace: Middleware[];
-    head: Middleware[];
-    connect: Middleware[];
+    get: Handler[];
+    post: Handler[];
+    put: Handler[];
+    patch: Handler[];
+    delete: Handler[];
+    options: Handler[];
+    trace: Handler[];
+    head: Handler[];
+    connect: Handler[];
+    noMatch: Handler[];
+    error: ErrorHandler[];
   };
 
   constructor() {
@@ -24,82 +33,103 @@ class ApiRouter {
       trace: [],
       head: [],
       connect: [],
+      // Set up default handler for noMatch routing
+      noMatch: [defaultNoMatchRoutingHandler],
+      // Set up default handler for error
+      error: [defaultErrorHandler],
     };
   }
 
-  get(...middlewares: Middleware[]): ApiRouter {
-    this.chains.get = [].concat(this.chains.post, middlewares);
+  get(...handlers: Handler[]): ApiRouter {
+    this.chains.get = [].concat(handlers);
     return this;
   }
 
-  post(...middlewares): ApiRouter {
-    this.chains.post = [].concat(this.chains.post, middlewares);
+  post(...handlers: Handler[]): ApiRouter {
+    this.chains.post = [].concat(handlers);
     return this;
   }
 
-  put(...middlewares): ApiRouter {
-    this.chains.post = [].concat(this.chains.post, middlewares);
+  put(...handlers: Handler[]): ApiRouter {
+    this.chains.put = [].concat(handlers);
     return this;
   }
 
-  patch(...middlewares): ApiRouter {
-    this.chains.post = [].concat(this.chains.post, middlewares);
+  patch(...handlers: Handler[]): ApiRouter {
+    this.chains.patch = [].concat(handlers);
     return this;
   }
 
-  delete(...middlewares): ApiRouter {
-    this.chains.post = [].concat(this.chains.post, middlewares);
+  delete(...handlers: Handler[]): ApiRouter {
+    this.chains.delete = [].concat(handlers);
     return this;
   }
 
-  options(...middlewares): ApiRouter {
-    this.chains.post = [].concat(this.chains.post, middlewares);
+  options(...handlers: Handler[]): ApiRouter {
+    this.chains.options = [].concat(handlers);
     return this;
   }
 
-  trace(...middlewares): ApiRouter {
-    this.chains.post = [].concat(this.chains.post, middlewares);
+  trace(...handlers: Handler[]): ApiRouter {
+    this.chains.trace = [].concat(handlers);
     return this;
   }
 
-  head(...middlewares): ApiRouter {
-    this.chains.post = [].concat(this.chains.post, middlewares);
+  head(...handlers: Handler[]): ApiRouter {
+    this.chains.head = [].concat(handlers);
     return this;
   }
 
-  connect(...middlewares): ApiRouter {
-    this.chains.post = [].concat(this.chains.post, middlewares);
+  connect(...handlers: Handler[]): ApiRouter {
+    this.chains.connect = [].concat(handlers);
     return this;
   }
 
-  loader(): Middleware {
-    return (args: MiddlewareArgs) => {
+  noMatch(...handlers: Handler[]): ApiRouter {
+    this.chains.noMatch = [].concat(handlers);
+    return this;
+  }
+
+  error(...handlers: ErrorHandler[]): ApiRouter {
+    this.chains.error = [].concat(handlers);
+    return this;
+  }
+
+  loader(): Handler {
+    return (args: HandlerArgs) => {
       return this.handleRequest(args);
     };
   }
 
-  actions(): Middleware {
-    return (args: MiddlewareArgs) => {
+  actions(): Handler {
+    return (args: HandlerArgs) => {
       return this.handleRequest(args);
     };
   }
 
-  private async handleRequest(args: MiddlewareArgs): Promise<MiddlewareReturn> {
-    const handlers: Middleware[] | undefined =
-      this.chains[args.request.method.toLowerCase()];
+  private async handleRequest(args: HandlerArgs): Promise<HandlerReturn> {
+    // Find handler using the the HTTP Request method
+    // If there is no handler set up for the method of the request, use "no match" handler
+    const handlers: Handler[] | undefined = this.chains[args.request.method.toLowerCase()] || this.chains.noMatch;
 
-    // If there is no handler, return 405 Method not allowed
-    if (!handlers?.length) {
-      return new Response(null, { status: 405 });
-    }
+    // Resolve handlers one by one, stopping and returning the result
+    // of the first one that has a value other than 'undefined'
+    try {
+      for (const handler of handlers) {
+        const handlerResult = await handler(args);
 
-    // Resolve middlewares one by one, returning the result of the
-    // first one that has a value other than 'undefined'
-    for (const handler of handlers) {
-      const handlerResult = await handler(args);
+        if (handlerResult !== undefined) {
+          return handlerResult;
+        }
+      }
+    } catch (err: any) {
+      // Use error handler
+      for (const handler of this.chains.error) {
+        const handlerResult = await handler(err, args);
 
-      if (handlerResult !== undefined) {
-        return handlerResult;
+        if (handlerResult !== undefined) {
+          return handlerResult;
+        }
       }
     }
   }

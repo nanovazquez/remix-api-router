@@ -1,10 +1,6 @@
 import apiRouter from "../../../../../src/index";
 import { json } from "@remix-run/node";
-import type {
-  ActionFunction,
-  LoaderFunction,
-  DataFunctionArgs,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderFunction, DataFunctionArgs } from "@remix-run/node";
 
 /**
  * /api/products
@@ -16,6 +12,7 @@ async function checkAuth() {
 }
 
 function checkAuthFail() {
+  throw new Error("bla");
   return json({ error: "Unauthorized" }, { status: 401 });
 }
 
@@ -29,7 +26,10 @@ router
   .post(checkAuthFail, (args: DataFunctionArgs) => json({ method: "GET" }, 200))
   .put((args: DataFunctionArgs) => json({ method: "GET" }, 200))
   .patch((args: DataFunctionArgs) => json({ method: "GET" }, 200))
-  .delete((args: DataFunctionArgs) => json({ method: "GET" }, 200));
+  .delete((args: DataFunctionArgs) => json({ method: "GET" }, 200))
+  .error((err) => {
+    return json({ any: "thing" }, 501);
+  });
 
 export const loader: LoaderFunction = router.loader();
 export const action: ActionFunction = router.actions();
