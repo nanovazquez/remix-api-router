@@ -1,21 +1,31 @@
 {
-  "name": "remix-api-connect",
+  "name": "remix-api-router",
   "version": "0.0.1",
   "description": "Method routing and middleware chaining for building APIs using Remix",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc --build --clean && tsc --build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
-    "remix-api-connect",
+    "remix-api-router",
     "remix-api",
     "remix",
     "api",
     "middleware"
   ],
-  "author": "nanovazquez",
+  "homepage": "https://github.com/nanovazquez/remix-api-router#readme",
+  "bugs": "https://github.com/nanovazquez/remix-api-router/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nanovazquez/remix-api-router.git"
+  },
   "license": "MIT",
+  "author": "nanovazquez",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "typescript": "^4.6.3"
   }
