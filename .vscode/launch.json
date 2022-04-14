@@ -9,7 +9,7 @@
       "name": "Debug web app",
       "request": "launch",
       "type": "node-terminal",
-      "cwd": "${workspaceRoot}/remix-api-example"
+      "cwd": "${workspaceRoot}/examples/remix-api-example"
     }
   ]
 }
