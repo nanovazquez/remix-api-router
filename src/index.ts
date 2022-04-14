@@ -84,7 +84,7 @@ class ApiRouter {
     };
   }
 
-  private handleRequest(args: MiddlewareArgs): MiddlewareReturn {
+  private async handleRequest(args: MiddlewareArgs): Promise<MiddlewareReturn> {
     const handlers: Middleware[] | undefined =
       this.chains[args.request.method.toLowerCase()];
 
@@ -96,7 +96,7 @@ class ApiRouter {
     // Resolve middlewares one by one, returning the result of the
     // first one that has a value other than 'undefined'
     for (const handler of handlers) {
-      const handlerResult = handler(args);
+      const handlerResult = await handler(args);
 
       if (handlerResult !== undefined) {
         return handlerResult;

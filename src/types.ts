@@ -8,10 +8,5 @@ export type MiddlewareArgs = {
   };
 };
 
-export type MiddlewareReturn =
-  | Promise<Response>
-  | Response
-  | Promise<unknown>
-  | unknown;
-
+export type MiddlewareReturn = Promise<Response> | Promise<unknown>;
 export type Middleware = (args: MiddlewareArgs) => MiddlewareReturn;

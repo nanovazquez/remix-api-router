@@ -10,8 +10,9 @@ import type {
  * /api/products
  */
 
-function checkAuth() {
-  console.log("success!");
+async function checkAuth() {
+  await fetch("https://google.com");
+  //return json({ status: "ok!" }, { status: 200 });
 }
 
 function checkAuthFail() {
@@ -21,7 +22,10 @@ function checkAuthFail() {
 // Define all routes
 const router = apiRouter();
 router
-  .get(checkAuth, (args: DataFunctionArgs) => json({ method: "GET" }, 200))
+  .get(checkAuth, async (args: DataFunctionArgs) => {
+    await fetch("https://google.com");
+    return json({ method: "GET" }, 200);
+  })
   .post(checkAuthFail, (args: DataFunctionArgs) => json({ method: "GET" }, 200))
   .put((args: DataFunctionArgs) => json({ method: "GET" }, 200))
   .patch((args: DataFunctionArgs) => json({ method: "GET" }, 200))
