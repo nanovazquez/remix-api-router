@@ -85,26 +85,23 @@ class ApiRouter {
   }
 
   private handleRequest(args: MiddlewareArgs): MiddlewareReturn {
-    const handlers = this.chains[args.request.method.toLowerCase()];
+    const handlers: Middleware[] | undefined =
+      this.chains[args.request.method.toLowerCase()];
 
     // If there is no handler, return 405 Method not allowed
     if (!handlers?.length) {
       return new Response(null, { status: 405 });
     }
 
-    // Resolve all middlewares, returning the result of the last middleware
-    // that has a value other than 'undefined'
-    let result: MiddlewareReturn = null;
-
-    handlers.forEach((handler) => {
+    // Resolve middlewares one by one, returning the result of the
+    // first one that has a value other than 'undefined'
+    for (const handler of handlers) {
       const handlerResult = handler(args);
 
-      if (handlerResult != undefined) {
-        result = handlerResult;
+      if (handlerResult !== undefined) {
+        return handlerResult;
       }
-    });
-
-    return result;
+    }
   }
 }
 

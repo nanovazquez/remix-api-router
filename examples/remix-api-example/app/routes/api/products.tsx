@@ -10,11 +10,19 @@ import type {
  * /api/products
  */
 
+function checkAuth() {
+  console.log("success!");
+}
+
+function checkAuthFail() {
+  return json({ error: "Unauthorized" }, { status: 401 });
+}
+
 // Define all routes
 const router = apiRouter();
 router
-  .get((args: DataFunctionArgs) => json({ method: "GET" }, 200))
-  .post((args: DataFunctionArgs) => json({ method: "GET" }, 200))
+  .get(checkAuth, (args: DataFunctionArgs) => json({ method: "GET" }, 200))
+  .post(checkAuthFail, (args: DataFunctionArgs) => json({ method: "GET" }, 200))
   .put((args: DataFunctionArgs) => json({ method: "GET" }, 200))
   .patch((args: DataFunctionArgs) => json({ method: "GET" }, 200))
   .delete((args: DataFunctionArgs) => json({ method: "GET" }, 200));
