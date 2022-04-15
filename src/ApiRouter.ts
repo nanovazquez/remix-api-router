@@ -1,8 +1,8 @@
 import type { Handler, HandlerArgs, HandlerReturn, ErrorHandler } from "./types";
 
 const inProd = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
-const defaultNoMatchRoutingHandler = () => new Response(null, { status: 405 });
-const defaultErrorHandler = (error) => {
+const defaultNoMatchRoutingHandler: Handler = () => new Response(null, { status: 405 });
+const defaultErrorHandler: ErrorHandler = (args, error) => {
   console.error(error);
   return new Response(inProd ? JSON.stringify(error) : null, { status: 500 });
 };
@@ -115,21 +115,22 @@ class ApiRouter {
     // Resolve handlers one by one, stopping and returning the result
     // of the first one that has a value other than 'undefined'
     try {
-      for (const handler of handlers) {
-        const handlerResult = await handler(args);
+      return await this.executeHandlers(handlers, args);
+    } catch (err: unknown) {
+      // Use error handlers
+      return await this.executeHandlers(this.chains.error, args);
+    }
+  }
 
-        if (handlerResult !== undefined) {
-          return handlerResult;
-        }
-      }
-    } catch (err: any) {
-      // Use error handler
-      for (const handler of this.chains.error) {
-        const handlerResult = await handler(err, args);
-
-        if (handlerResult !== undefined) {
-          return handlerResult;
-        }
+  private async executeHandlers(
+    handlers: Handler[] | ErrorHandler[],
+    args: HandlerArgs,
+    error?: unknown
+  ): Promise<unknown> {
+    for (const handler of handlers) {
+      const handlerResult = await handler(args, error);
+      if (handlerResult !== undefined) {
+        return handlerResult;
       }
     }
   }
