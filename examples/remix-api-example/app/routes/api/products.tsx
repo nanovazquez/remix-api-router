@@ -1,4 +1,4 @@
-import apiRouter from "../../../../../src/index";
+import apiRouter from "../../../../../src/ApiRouter";
 import { json } from "@remix-run/node";
 import type { ActionFunction, LoaderFunction, DataFunctionArgs } from "@remix-run/node";
 
@@ -13,12 +13,11 @@ async function checkAuth() {
 
 function checkAuthFail() {
   throw new Error("bla");
-  return json({ error: "Unauthorized" }, { status: 401 });
+  // return json({ error: "Unauthorized" }, { status: 401 });
 }
 
 // Define all routes
-const router = apiRouter();
-router
+apiRouter()
   .get(checkAuth, async (args: DataFunctionArgs) => {
     await fetch("https://google.com");
     return json({ method: "GET" }, 200);
