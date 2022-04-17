@@ -1,7 +1,9 @@
 import type { Handler, HandlerArgs, HandlerReturn, ErrorHandler } from "./types";
 
 const inProd = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
-const defaultNoMatchRoutingHandler: Handler = () => new Response(null, { status: 405 });
+const defaultNoMatchRoutingHandler: Handler = () => {
+  return new Response(null, { status: 405 });
+};
 const defaultErrorHandler: ErrorHandler = (args, error) => {
   console.error(error);
   return new Response(inProd ? JSON.stringify(error) : null, { status: 500 });
@@ -9,30 +11,21 @@ const defaultErrorHandler: ErrorHandler = (args, error) => {
 
 class ApiRouter {
   private chains: {
-    get: Handler[];
-    post: Handler[];
-    put: Handler[];
-    patch: Handler[];
-    delete: Handler[];
-    options: Handler[];
-    trace: Handler[];
-    head: Handler[];
-    connect: Handler[];
+    get?: Handler[];
+    post?: Handler[];
+    put?: Handler[];
+    patch?: Handler[];
+    delete?: Handler[];
+    options?: Handler[];
+    trace?: Handler[];
+    head?: Handler[];
+    connect?: Handler[];
     noMatch: Handler[];
     error: ErrorHandler[];
   };
 
   constructor() {
     this.chains = {
-      get: [],
-      post: [],
-      put: [],
-      patch: [],
-      delete: [],
-      options: [],
-      trace: [],
-      head: [],
-      connect: [],
       // Set up default handler for noMatch routing
       noMatch: [defaultNoMatchRoutingHandler],
       // Set up default handler for error
@@ -155,7 +148,7 @@ class ApiRouter {
    * @returns A function that will execute the router handling process
    */
   loader(): Handler {
-    return this.handle;
+    return this.handle.bind(this);
   }
 
   /**
@@ -163,7 +156,7 @@ class ApiRouter {
    * @returns A function that will execute the router handling process
    */
   actions(): Handler {
-    return this.handle;
+    return this.handle.bind(this);
   }
 
   /**

@@ -26,7 +26,7 @@
   "scripts": {
     "lint": "tsc --noEmit && eslint src --ext ts,tsx,js,jsx",
     "build": "tsc --build --clean && tsc --build",
-    "test": "jest --silent --watch",
+    "test": "jest --watch",
     "test:coverage": "jest --silent --ci --coverage"
   },
   "devDependencies": {
@@ -36,6 +36,8 @@
     "@typescript-eslint/parser": "^5.19.0",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
+    "fetch-ponyfill": "^7.1.0",
+    "isomorphic-fetch": "^3.0.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"

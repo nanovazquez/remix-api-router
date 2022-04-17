@@ -5,7 +5,9 @@
     "declaration": true,
     "sourceMap": true,
     "noEmitOnError": true,
+    "esModuleInterop": true,
     "outDir": "./dist"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test.*"]
 }
