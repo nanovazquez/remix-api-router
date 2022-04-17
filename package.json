@@ -24,7 +24,7 @@
     "/dist"
   ],
   "scripts": {
-    "postinstall": "cd examples/remix-api-example && npm ci && npm run build",
+    "pretest:integration": "./test/integration/setup.bash",
     "lint": "tsc --noEmit && eslint src --ext ts,tsx,js,jsx",
     "build": "tsc --build --clean && tsc -p tsconfig.build.json",
     "test": "npm run test:unit && npm run test:integration",
