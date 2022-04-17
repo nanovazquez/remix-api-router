@@ -1,8 +1,8 @@
 import "isomorphic-fetch";
-import ApiRouter from "./ApiRouter";
-import { apiRouter } from "./ApiRouter";
+import ApiRouter from "../../src/ApiRouter";
+import { apiRouter } from "../../src/ApiRouter";
 
-describe("ApiRouter", () => {
+describe("ApiRouter unit tests", () => {
   let router: ApiRouter;
 
   beforeEach(() => {
@@ -41,11 +41,8 @@ describe("ApiRouter", () => {
       const handlerPatch = () => 4;
       const handlerDelete = () => 5;
       const handlerOptions = () => 6;
-      const handlerTrace = () => 7;
-      const handlerHead = () => 8;
-      const handlerConnect = () => 9;
-      const handlerNoMatch = () => 10;
-      const handlerError = () => 11;
+      const handlerNoMatch = () => 7;
+      const handlerError = () => 8;
 
       router.get(handlerGet);
       router.post(handlerPost);
@@ -53,9 +50,6 @@ describe("ApiRouter", () => {
       router.patch(handlerPatch);
       router.delete(handlerDelete);
       router.options(handlerOptions);
-      router.trace(handlerTrace);
-      router.head(handlerHead);
-      router.connect(handlerConnect);
       router.noMatch(handlerNoMatch);
       router.error(handlerError);
 
@@ -65,9 +59,6 @@ describe("ApiRouter", () => {
       expect((router as any).chains.patch).toStrictEqual([handlerPatch]);
       expect((router as any).chains.delete).toStrictEqual([handlerDelete]);
       expect((router as any).chains.options).toStrictEqual([handlerOptions]);
-      expect((router as any).chains.trace).toStrictEqual([handlerTrace]);
-      expect((router as any).chains.head).toStrictEqual([handlerHead]);
-      expect((router as any).chains.connect).toStrictEqual([handlerConnect]);
       expect((router as any).chains.noMatch).toStrictEqual([handlerNoMatch]);
       expect((router as any).chains.error).toStrictEqual([handlerError]);
     });
@@ -188,9 +179,9 @@ describe("ApiRouter", () => {
 
     test("should execute a non GET handler when invoking action()", async () => {
       const handler = () => 1;
-      router.connect(handler);
+      router.patch(handler);
       const result = await router.actions()({
-        request: { method: "CONNECT" } as Request,
+        request: { method: "PATCH" } as Request,
         context: "context",
         params: {},
       });

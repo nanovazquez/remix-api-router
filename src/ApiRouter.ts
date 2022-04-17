@@ -17,9 +17,6 @@ class ApiRouter {
     patch?: Handler[];
     delete?: Handler[];
     options?: Handler[];
-    trace?: Handler[];
-    head?: Handler[];
-    connect?: Handler[];
     noMatch: Handler[];
     error: ErrorHandler[];
   };
@@ -90,36 +87,6 @@ class ApiRouter {
    */
   options(...handlers: Handler[]): ApiRouter {
     this.chains.options = [].concat(handlers);
-    return this;
-  }
-
-  /**
-   * Sets up handlers for a TRACE request.
-   * @param handlers The handlers for the request
-   * @returns The ApiRouter instance to chain other handlers
-   */
-  trace(...handlers: Handler[]): ApiRouter {
-    this.chains.trace = [].concat(handlers);
-    return this;
-  }
-
-  /**
-   * Sets up handlers for a HEAD request.
-   * @param handlers The handlers for the request
-   * @returns The ApiRouter instance to chain other handlers
-   */
-  head(...handlers: Handler[]): ApiRouter {
-    this.chains.head = [].concat(handlers);
-    return this;
-  }
-
-  /**
-   * Sets up handlers for a CONNECT request.
-   * @param handlers The handlers for the request
-   * @returns The ApiRouter instance to chain other handlers
-   */
-  connect(...handlers: Handler[]): ApiRouter {
-    this.chains.connect = [].concat(handlers);
     return this;
   }
 

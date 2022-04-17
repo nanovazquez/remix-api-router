@@ -8,6 +8,5 @@
     "esModuleInterop": true,
     "outDir": "./dist"
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*"]
+  "include": ["src/**/*", "test/**/*"]
 }

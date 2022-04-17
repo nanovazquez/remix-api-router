@@ -13,7 +13,13 @@
     },
     {
       "command": "npm run test",
-      "name": "Debug tests",
+      "name": "Debug unit tests",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run test:integration",
+      "name": "Debug integration tests",
       "request": "launch",
       "type": "node-terminal"
     }

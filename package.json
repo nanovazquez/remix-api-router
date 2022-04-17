@@ -24,16 +24,21 @@
     "/dist"
   ],
   "scripts": {
+    "postinstall": "cd examples/remix-api-example && npm ci && npm run build",
     "lint": "tsc --noEmit && eslint src --ext ts,tsx,js,jsx",
-    "build": "tsc --build --clean && tsc --build",
-    "test": "jest --watch",
-    "test:coverage": "jest --silent --ci --coverage"
+    "build": "tsc --build --clean && tsc -p tsconfig.build.json",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "jest ./test/**/*.unit.test.ts",
+    "test:unit:coverage": "jest ./test/**/*.unit.test.ts --silent --ci --coverage",
+    "test:integration": "jest ./test/**/*.integration.test.ts --detectOpenHandles"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
+    "axios": "^0.26.1",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "fetch-ponyfill": "^7.1.0",
