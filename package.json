@@ -1,7 +1,7 @@
 {
   "name": "remix-api-router",
   "version": "0.0.1",
-  "description": "Library for defining APIs in Remix using a chaining approach, similar to Express middleware",
+  "description": "Library for implementing APIs in Remix using a chaining approach, similar to Express middleware",
   "keywords": [
     "remix-api-router",
     "remix-api",
