@@ -28,7 +28,7 @@ jobs:
         run: npm run lint --if-present
 
       - name: Test
-        run: npm run test --if-present
+        run: npm run test:unit:coverage --if-present
 
       - name: Send test coverage to coveralls
         uses: coverallsapp/github-action@v1.1.2
