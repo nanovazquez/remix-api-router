@@ -1,6 +1,6 @@
 {
   "name": "remix-api-router",
-  "version": "0.0.1",
+  "version": "0.0.0-semantic-release",
   "description": "Library for implementing APIs in Remix using a chaining approach, similar to Express middleware",
   "keywords": [
     "remix-api-router",
@@ -31,7 +31,8 @@
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "jest ./test/**/*.unit.test.ts",
     "test:unit:coverage": "jest ./test/**/*.unit.test.ts --silent --ci --coverage",
-    "test:integration": "jest ./test/**/*.integration.test.ts --detectOpenHandles"
+    "test:integration": "jest ./test/**/*.integration.test.ts --detectOpenHandles",
+    "semantic-release": "semantic-release"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
@@ -42,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "axios": "^0.26.1",
+    "cross-spawn-with-kill": "^1.0.0",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "fetch-ponyfill": "^7.1.0",

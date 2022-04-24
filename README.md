@@ -1,5 +1,8 @@
 # Remix API Router
 
+[![Build status](https://github.com/nanovazquez/remix-api-router/actions/workflows/ci-cd.yaml/badge.svg?branch=main)](https://github.com/nanovazquez/remix-api-router/actions/workflows/ci-cd.yaml) [![Coverage Status](https://coveralls.io/repos/github/nanovazquez/remix-api-router/badge.svg)](https://coveralls.io/github/nanovazquez/remix-api-router) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![npm](https://img.shields.io/npm/v/remix-api-router.svg?style=flat)](https://www.npmjs.com/package/remix-api-router)
+[![npm](https://img.shields.io/npm/dw/remix-api-router.svg)](https://www.npmjs.com/package/remix-api-router)
+
 Library for creating [APIs in Remix](https://remix.run/docs/en/v1/guides/resource-routes#handling-different-request-methods) using a chaining approach, similar to Express middleware.
 
 > **Note:** originally I was planning to implement a [chain-of-responsibility pattern](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern) with the same contract as [Express](https://expressjs.com/en/guide/routing.html), but I wasn't sure how much adoption it will have. If you are interesting in it, [let's talk!](https://github.com/nanovazquez/remix-api-router/issues).
