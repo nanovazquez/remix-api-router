@@ -18,7 +18,7 @@ yarn add remix-api-router
 
 ## Usage
 
-Create a **products.tsx** file inside a Remix app, under the **app/routes/api** folder.
+For instance, create a **products.tsx** file inside a Remix app, under the **app/routes/api** folder, and paste the following code:
 
 ```typescript
 import { apiRouter } from "remix-api-router";
