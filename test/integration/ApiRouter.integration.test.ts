@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import spawn from "cross-spawn-with-kill";
 import path from "path";
 import axios from "axios";
 
