@@ -33,9 +33,9 @@ describe("ApiRouter integration tests", () => {
   });
 
   it("should resolve 2xx requests", async () => {
-    expect((await axios.get(`${serviceBaseUrl}/api/products`)).data).toStrictEqual({ method: "GET" });
-    expect((await axios.put(`${serviceBaseUrl}/api/products`)).data).toStrictEqual({ method: "PUT" });
-    expect((await axios.patch(`${serviceBaseUrl}/api/products`)).data).toStrictEqual({ method: "PATCH" });
+    expect((await axios.get(`${serviceBaseUrl}/api/products`)).data).toStrictEqual({ message: "GET" });
+    expect((await axios.put(`${serviceBaseUrl}/api/products`)).data).toStrictEqual({ message: "PUT" });
+    expect((await axios.patch(`${serviceBaseUrl}/api/products`)).data).toStrictEqual({ message: "PATCH" });
   });
 
   it("should properly handle client errors (4xx)", async () => {

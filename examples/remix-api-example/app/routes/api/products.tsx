@@ -21,11 +21,11 @@ const router = apiRouter();
 router
   .get(checkAuth, async (args: DataFunctionArgs) => {
     await fetch("https://google.com");
-    return json({ method: "GET" }, 200);
+    return json({ message: "GET" }, 200);
   })
-  .post(checkAuthFail, (args: DataFunctionArgs) => json({ method: "POST" }, 200))
-  .put((args: DataFunctionArgs) => json({ method: "PUT" }, 200))
-  .patch((args: DataFunctionArgs) => json({ method: "PATCH" }, 200))
+  .post(checkAuthFail, (args: DataFunctionArgs) => json({ message: "POST" }, 200))
+  .put((args: DataFunctionArgs) => json({ message: "PUT" }, 200))
+  .patch((args: DataFunctionArgs) => json({ message: "PATCH" }, 200))
   .delete((args: DataFunctionArgs) => {
     throw new Error("unexpected error");
   })

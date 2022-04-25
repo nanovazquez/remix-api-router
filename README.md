@@ -25,6 +25,7 @@ For example, create a **products.tsx** file inside a Remix app, under the **app/
 
 ```typescript
 import { apiRouter } from "remix-api-router";
+import { checkAuth } from "auth";
 import { json } from "@remix-run/node";
 import type { ActionFunction, LoaderFunction, DataFunctionArgs } from "@remix-run/node";
 
@@ -32,26 +33,16 @@ import type { ActionFunction, LoaderFunction, DataFunctionArgs } from "@remix-ru
  * /api/products
  */
 
-async function checkAuth(): Promise<void> {
-  // everything is ok, return an empty promise
-  // simulating an async check
-  await Promise.resolve();
-}
-
-function checkAuthFail(): Promise<void> | Promise<Response> | Response {
-  return json({ error: "Unauthorized" }, { status: 401 });
-}
-
 // Define all routes for this endpoint and their handlers
 const router = apiRouter();
 router
   .get(checkAuth, async (args: DataFunctionArgs) => {
     await fetch("https://google.com");
-    return json({ method: "GET" }, 200);
+    return json({ message: "GET" }, 200);
   })
-  .post(checkAuthFail, (args: DataFunctionArgs) => json({ method: "POST" }, 200))
-  .put((args: DataFunctionArgs) => json({ method: "PUT" }, 200))
-  .patch((args: DataFunctionArgs) => json({ method: "PATCH" }, 200))
+  .post(checkAuth, (args: DataFunctionArgs) => json({ message: "POST" }, 200))
+  .put((args: DataFunctionArgs) => json({ message: "PUT" }, 200))
+  .patch((args: DataFunctionArgs) => json({ message: "PATCH" }, 200))
   .delete((args: DataFunctionArgs) => {
     throw new Error("unexpected error");
   })
