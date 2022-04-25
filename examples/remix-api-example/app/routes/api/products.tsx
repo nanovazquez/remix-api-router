@@ -1,4 +1,4 @@
-import { apiRouter } from "../../../../../src/ApiRouter";
+import { apiRouter } from "../../../../../src";
 import { json } from "@remix-run/node";
 import type { ActionFunction, LoaderFunction, DataFunctionArgs } from "@remix-run/node";
 

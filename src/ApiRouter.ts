@@ -165,4 +165,3 @@ class ApiRouter {
 }
 
 export default ApiRouter;
-export const apiRouter = () => new ApiRouter();

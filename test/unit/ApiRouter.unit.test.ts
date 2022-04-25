@@ -1,6 +1,5 @@
 import "isomorphic-fetch";
-import ApiRouter from "../../src/ApiRouter";
-import { apiRouter } from "../../src/ApiRouter";
+import ApiRouter, { apiRouter } from "../../src/";
 
 describe("ApiRouter unit tests", () => {
   let router: ApiRouter;
