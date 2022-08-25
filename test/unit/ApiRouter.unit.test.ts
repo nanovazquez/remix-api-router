@@ -101,7 +101,7 @@ describe("ApiRouter unit tests", () => {
       };
 
       router.put(handler1, handler2);
-      await router.handle({ request: { method: "PUT" } as Request, context: "context", params: {} });
+      await router.handle({ request: { method: "PUT" } as Request, context: { hello: "world" }, params: {} });
 
       expect(handler1Executed).toBe(true);
       expect(handler2Executed).toBe(true);
@@ -121,7 +121,7 @@ describe("ApiRouter unit tests", () => {
       };
 
       router.patch(handler1, handler2);
-      await router.handle({ request: { method: "PATCH" } as Request, context: "context", params: {} });
+      await router.handle({ request: { method: "PATCH" } as Request, context: { hello: "world" }, params: {} });
 
       expect(handler1Args).toBeDefined();
       expect(handler1Args).toBe(handler2Args);
@@ -140,18 +140,26 @@ describe("ApiRouter unit tests", () => {
       };
 
       router.delete(handler1, handler2);
-      await router.handle({ request: { method: "DELETE" } as Request, context: "context", params: {} });
+      await router.handle({ request: { method: "DELETE" } as Request, context: { hello: "world" }, params: {} });
 
       expect(handler1Executed).toBe(true);
       expect(handler2Executed).toBe(false);
     });
 
     test("should handle a 'no match' by default", async () => {
-      const result1 = await router.handle({ request: { method: "DELETE" } as Request, context: "context", params: {} });
+      const result1 = await router.handle({
+        request: { method: "DELETE" } as Request,
+        context: { hello: "world" },
+        params: {},
+      });
       expect(result1).toBeDefined();
       expect((result1 as Response).status).toBe(405);
 
-      const result2 = await router.handle({ request: { method: "BLA" } as Request, context: "context", params: {} });
+      const result2 = await router.handle({
+        request: { method: "BLA" } as Request,
+        context: { hello: "world" },
+        params: {},
+      });
       expect(result2).toBeDefined();
       expect((result2 as Response).status).toBe(405);
     });
@@ -162,7 +170,11 @@ describe("ApiRouter unit tests", () => {
         throw error;
       };
       router.options(handler);
-      const result = await router.handle({ request: { method: "OPTIONS" } as Request, context: "context", params: {} });
+      const result = await router.handle({
+        request: { method: "OPTIONS" } as Request,
+        context: { hello: "world" },
+        params: {},
+      });
 
       expect(result).toBeDefined();
       expect((result as Response).status).toBe(500);
@@ -171,7 +183,11 @@ describe("ApiRouter unit tests", () => {
     test("should execute a GET handler when invoking loader()", async () => {
       const handler = () => 1;
       router.get(handler);
-      const result = await router.loader()({ request: { method: "GET" } as Request, context: "context", params: {} });
+      const result = await router.loader()({
+        request: { method: "GET" } as Request,
+        context: { hello: "world" },
+        params: {},
+      });
 
       expect(result).toBe(1);
     });
@@ -181,7 +197,7 @@ describe("ApiRouter unit tests", () => {
       router.patch(handler);
       const result = await router.actions()({
         request: { method: "PATCH" } as Request,
-        context: "context",
+        context: { hello: "world" },
         params: {},
       });
 
