@@ -6,7 +6,7 @@ export interface AppLoadContext {
 
 export type HandlerArgs = {
   request: Request;
-  context?: AppLoadContext;
+  context: AppLoadContext;
   params: {
     readonly [key: string]: string | undefined;
   };
